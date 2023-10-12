@@ -2,47 +2,50 @@ function Node(data = null, next = null) {
   return { data, next };
 }
 
-function LinkedList() {
-  let head = Node();
-  let tail;
-  let size;
+const LinkedList = () => {
+  const head = Node();
+  const tail = Node();
+  let size = 0;
+  const prepend = (value) => {
+    size++;
+    list.size = size;
+    list.head = Node(value, list.head);
+  };
+
   const append = (value) => {
-    if (list.head.data && list.tail.data !== null) {
-      list.head.next = list.tail;
-      list.tail = Node(value);
-    } else if (list.head.data !== null) {
-      list.tail = Node(value);
-      list.head.next = list.tail;
-    } else {
+    if (list.head === null) {
       prepend(value);
+    } else {
+      size++
+      list.size = size;
+      let currentNode = list.head;
+      while (currentNode.next.data !== null) {
+        currentNode = currentNode.next;
+      }
+      currentNode.next = Node(value, null);
+      list.tail = currentNode.next
     }
   };
-  const prepend = (value) => {
-   list.head = Node(value);
-   list.tail = list.head.next;
-   list.tail = Node();
-   list.head.next = list.tail;
-  };
-  // head = Node(value);
-  // tail = head.next;
-  // tail = Node();
-
   return {
-    append, prepend, head, tail,
+    head, prepend, append,
   };
 }
 
-const list = LinkedList('A');
+const list = LinkedList();
 
 console.log(list);
 
-list.append('A');
+list.prepend('A');
+console.log(list.head);
+list.prepend('B');
+console.log(list.head);
+list.prepend('C');
 console.log(list);
-list.append('B');
+list.prepend('D');
 console.log(list);
-list.append('C');
-console.log(list);
-list.append('D');
-console.log(list);
+list.append('E');
+
 
 console.log(list.head);
+console.log(list.tail);
+console.log(list.size);
